@@ -1,0 +1,76 @@
+<div style="height: 100vh; overflow:hidden" class="d-flex mh-100 w-100 main-div">
+    <div class="d-flex flex-column m-3 p-3 border container mw-100 ">
+        <form method="POST" action="/order">
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Name</label>
+            <input type="text" class="form-control" placeholder="Your name" name="name">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Surname</label>
+            <input type="text" class="form-control" placeholder="Your surname" name="surname">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Email</label>
+            <input type="email" class="form-control" placeholder="name@example.com" name="email">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Phone</label>
+            <input type="tel" class="form-control" placeholder="380000000000" name="phone">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Address</label>
+            <input type="Text" class="form-control"placeholder="Your address" name="address">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Note</label>
+            <textarea class="form-control" rows="3" name="note"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1" class="font-weight-bold">Загальна сума: {{{ totalPrice }}} grn</label>
+        </div>
+        <button type="submit" class="btn btn-outline-warning">Submit</button>
+        </form>
+    </div>
+
+    <div class=" flex-column flex-wrap m-3 p-3 border container overflow-auto mh-100" style="overflow: auto;">
+        {{#each itemList}}
+            <div class="card m-3 p-1 " style="width: 20rem;">
+                <img class="card-img-top w-50 m-1 mx-auto " src={{{this.img}}} alt="А фотки нєма">
+                <div class="card-body p-1 w-100">
+                    <p class="card-title ">{{{ this.name }}}</p>
+                    <p class="card-title ">{{{ this.price }}} grn</p>
+                    <p class="card-title">Кількість: {{{ this.count }}} </p>
+                    <p class="card-title">Сума: {{{ this.sum }}} grn</p>
+                    <form action="/add"  method="POST">
+                        <input type="hidden" name="id" value={{{ this._id }}}>
+                        <button type="submit" class="btn btn-outline-success addBtn" >Добавить</button>
+                    </form>
+                    <form action="/delete" method="POST">
+                        <input type="hidden" name="id" value={{{ this._id }}}>
+                        <button type="submit" class="btn btn-outline-danger addBtn">Удалить</button>
+                    </form>
+                </div>
+            </div>
+        {{/each}}
+
+    </div>
+</div>
+
+<script>
+    /*let cart = document.querySelector('.cart');
+    let items = []
+    for(let i=0; i<localStorage.length; i++){
+        let key = localStorage.key(i);
+    }
+
+    let good = `
+            <div class="card m-3 mx-auto p-1 " style="width: 10rem;">
+                <img class="card-img-top w-50 m-1 mx-auto " src={{{this.img}}} alt="А фотки нєма">
+                <div class="card-body mx-auto text-center p-1 mw-100">
+                    <p class="card-title text-center">{{{ this.name }}}</p>
+                    <a href="#" class="btn btn-outline-success addBtn" >Купити</a>
+                </div>
+            </div>`
+    */
+
+</script>

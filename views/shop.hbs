@@ -1,0 +1,75 @@
+<div style="height: 100vh; overflow:hidden" class="d-flex mh-100 w-100 main-div">
+        
+    <div style="width:200px" class="d-flex flex-column m-3 p-3 border container mh-75 h-75 overflow-auto shopName">    
+        <p class=".flex-column mx-auto">Shops</p>{{{ this.name }}}</a>
+            <form action="/" method="POST">
+                <input type="hidden" name="shop" value='all'>
+                <button type="submit" class="btn btn-info btn-lg btn-block alert" > All </button>
+            </form>
+        {{#each shopList}}
+            {{!-- <a class="btn btn-info btn-lg btn-block" href="#" role="button">{{{ this.name }}}</a> --}}
+            <form action="/" method="POST">
+                <input type="hidden" name="shop" value={{{ this._id }}}>
+                <button type="submit" class="btn btn-info btn-lg btn-block alert" value={{{ this.name }}}> {{{ this.name }}}</button>
+            </form>
+        {{/each}}
+    </div>
+
+    <div class="overflow-auto d-flex m-3 border container flex-wrap mh-75 h-75" style="overflow: auto;" id="carts">
+        {{#each itemList}}
+            <div class="card m-3 mx-auto p-1 " style="width: 10rem;">
+                <input type="text" hidden value={{{ this.name }}}>
+                <img class="card-img-top w-50 m-1 mx-auto " src={{{this.img}}} alt="А фотки нєма">
+                <div class="card-body mx-auto text-center p-1 mw-100">
+                    <p class="card-title text-center">{{{ this.name }}}</p>
+                    <p class="card-title text-center">{{{ this.price }}} grn</p>
+                    {{!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
+                    <form action="/" method="POST">
+                        <input type="hidden" name="id" value={{{ this._id }}}>
+                        <button type="submit" class="btn btn-outline-success addBtn">Купити</button>
+                        {{!-- <a href="#" class="btn btn-outline-success addBtn" >Купити</a> --}}
+                    </form>
+                </div>
+            </div>
+        {{!-- <div class="border w-25 h-50 m-3 p-1 ">
+            <img src={{{this.img}}} alt="А фотки нєма" class="w-75 mx-auto">
+            <p class="mx-auto"> {{{ this.name }}} </p>
+            <button class="mx-auto">Купити</button>
+        </div> --}}
+
+        {{/each}}
+        
+    </div>
+</div>
+
+<script>
+    let mainDiv = document.querySelector('.main-div');
+    let cartsDiv = document.querySelector('#carts');
+        
+    /*mainDiv.addEventListener('click', (e) => {
+        //alert(e.target.tagName)
+        if(e.target.tagName == 'BUTTON'){
+            alert(e.target.value)
+            let itemList = document.querySelectorAll('.card');
+            itemList.forEach((i) => {
+                console.log(i.children[0].value)
+            })
+        }
+
+    })
+    
+    let cards = cartsDiv.children
+    let products = []
+    for(let i = 0; i < cards.length; i++){
+        let butt = cards[i].children[2].children[2]
+        butt.addEventListener('click', (e)=>{
+            let id = cards[i].children[2].children[1].value;
+            console.log(id)
+            let name = cards[i].children[0].value;
+            console.log(name)
+            localStorage.setItem(name, id);
+            console.log(localStorage)
+        })
+    }  */
+
+</script>
