@@ -8,7 +8,7 @@ const mid = require('../middleware/sortShop')
 router
     .route('/')
     .get( shopContr.RenderShopPage )
-    .post( mid.sortShop, shopContr.addToCart )
+    .post( shopContr.addToCart )
 
 
 router
