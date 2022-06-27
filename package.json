@@ -4,7 +4,7 @@
   "description": "test task for eliftech school",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node app.js",
     "dev": "nodemon app.js"
   },
   "author": "ValeriaRbk <vriabikova37@gmail.com>",
