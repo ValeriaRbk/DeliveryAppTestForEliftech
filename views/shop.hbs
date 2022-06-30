@@ -8,7 +8,7 @@
             </form>
         {{#each shopList}}
             {{!-- <a class="btn btn-info btn-lg btn-block" href="#" role="button">{{{ this.name }}}</a> --}}
-            <form action="/" method="POST">
+            <form action="/chooseShop" method="POST">
                 <input type="hidden" name="shop" value={{{ this._id }}}>
                 <button type="submit" class="btn btn-info btn-lg btn-block alert" value={{{ this.name }}}> {{{ this.name }}}</button>
             </form>

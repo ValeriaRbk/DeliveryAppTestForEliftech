@@ -18,5 +18,6 @@ router
 router.post('/order', cartContr.CreateOrder)
 router.post('/add', cartContr.addItem)
 router.post('/delete', cartContr.deleteItem)
+router.post('/chooseShop', shopContr.RenderSomeShop)
 
 module.exports = router;

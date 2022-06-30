@@ -30,7 +30,15 @@ class ShopController{
 
     async RenderSomeShop(req, res){
         try{
-            console.log(req.body.shop)
+            const thisShop = await Shop.findById(req.body.shop)
+            const shops = await Shop.find({});
+            const shopItems = await Item.find({shop: thisShop._id })
+            const readyItemsList = itemListConverter(shopItems);
+            const readyShops = shopListConverter(shops);
+            console.log(thisShop)
+            console.log(shopItems)
+            
+            return res.render('shop', {layout: 'index', itemList: readyItemsList, shopList: readyShops })
         }catch(e){
             console.log(e)
         }
