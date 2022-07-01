@@ -46,7 +46,7 @@ const start = async() => {
             useNewUrlParser: true
         }).then(() => { console.log("mongo connected") })
         app.listen(PORT, ()=>{
-            session.items = [];
+            session.items = {};
             console.log(session);
             console.log(`Server start on ${PORT}`);
         })

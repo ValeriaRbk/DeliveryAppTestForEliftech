@@ -20,7 +20,32 @@ class ShopController{
 
     async addToCart(req, res){
         try{
-            session.items.push(req.body.id)
+            let products = []
+            let count = {};
+
+            for(let key in session.items){
+                for(let i = 0; i < session.items[key]; i++){
+                    products.push(key)
+                }
+            }
+            products.push(req.body.id);
+            
+            for (let item of products) {
+                if (count[item] === undefined) {
+                    count[item] = 1;
+                } else {
+                    count[item]++;
+                }
+            }
+
+            session.items = count
+            
+            console.log("Count")
+            console.log(count)
+            console.log("Products")
+            console.log(products)
+            console.log("Sessions items")
+            console.log(session.items)
 
             return res.redirect('/')
         }catch(e){

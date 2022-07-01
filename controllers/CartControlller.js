@@ -7,24 +7,20 @@ class CartController{
     
     async RenderCart(req, res){
         try{
-            let count = {};
-            for (let item of session.items) {
-                if (count[item] === undefined) {
-                count[item] = 1;
-                } else {
-                count[item]++;
-                }
-            }
-            
             let readyList = [];
+
             let totalPrice = 0;
-            for(let key in count){
+
+            for(let key in session.items){
                 const item = await Item.findById(key)
-                const readyItem = itemConverter(item, count[key])
+                const readyItem = itemConverter(item, session.items[key])
                 totalPrice += readyItem.price * readyItem.count
-                readyList.push(readyItem)
+                readyList.push(readyItem);
             }
-            session.readyItems = readyList
+
+            console.log("readyList")
+            console.log(readyList)
+            session.orderItems = readyList
             session.totalPrice = totalPrice
             
             return res.render('cart', {layout: 'index', itemList: readyList, totalPrice: totalPrice});
@@ -37,6 +33,7 @@ class CartController{
         try{
             const { name, surname, email, phone, address, note } = req.body;
 
+
             const order = new Order({
                 firstname: name,
                 lastname: surname,
@@ -44,17 +41,17 @@ class CartController{
                 phone: phone,
                 address: address,
                 note: note,
-                listOfProducts: session.readyItems,
+                listOfProducts: session.orderItems,
                 totalPrice: session.totalPrice
             })
 
             await order.save();
             
-            session.readyItems = []
+            session.orderItems = []
             session.totalPrice = 0
-            session.items = []
+            session.items = {}
 
-            return res.redirect('/')
+            return res.render('cart', {layout: 'index', itemList: session.orderItems, totalPrice: session.totalPrice});
         }catch(e){
             console.log(e)
         }
@@ -62,17 +59,13 @@ class CartController{
 
     async addItem(req, res){
         try{
-            for(let item of session.readyItems){
-                if(item._id.toString() === req.body.id){
-                    let newCount = item.count + 1
-                    let newItem = itemConverter(item, newCount)
-                    item.count = newItem.count
-                    item.sum = newItem.sum
-                    session.totalPrice += item.price
+            for(let key in session.items){
+                if(key === req.body.id){
+                    session.items[key]++
                 }
             }
 
-            return res.render('cart', {layout: 'index', itemList: session.readyItems, totalPrice: session.totalPrice});
+            return res.redirect('/cart');
 
         }catch(e){
             console.log(e)
@@ -81,22 +74,18 @@ class CartController{
 
     async deleteItem(req, res){
         try{
-            for(let item of session.readyItems){
-                if(item._id.toString() === req.body.id){
-                    if(item.count == 1){
-                        session.readyItems.splice(session.readyItems.indexOf(item), 1)
-                        session.totalPrice -= item.price
+            
+            for(let key in session.items){
+                if(key === req.body.id){
+                    if(session.items[key] == 1){
+                        delete session.items[key]
                     }else{
-                        let newCount = item.count - 1
-                        let newItem = itemConverter(item, newCount)
-                        item.count = newItem.count
-                        item.sum = newItem.sum
-                        session.totalPrice -= item.price
+                        session.items[key]--
                     }
                 }
             }
 
-            return res.render('cart', {layout: 'index', itemList: session.readyItems, totalPrice: session.totalPrice});
+            return res.redirect('/cart');
 
         }catch(e){
             console.log(e)
