@@ -33,25 +33,29 @@ class CartController{
         try{
             const { name, surname, email, phone, address, note } = req.body;
 
+            if(session.orderItems.length == 0){
+                res.status(400).json({ message: 'Order cannot be empty!' })
+            }else{
 
-            const order = new Order({
-                firstname: name,
-                lastname: surname,
-                email: email,
-                phone: phone,
-                address: address,
-                note: note,
-                listOfProducts: session.orderItems,
-                totalPrice: session.totalPrice
-            })
+                const order = new Order({
+                    firstname: name,
+                    lastname: surname,
+                    email: email,
+                    phone: phone,
+                    address: address,
+                    note: note,
+                    listOfProducts: session.orderItems,
+                    totalPrice: session.totalPrice
+                })
+    
+                await order.save();
+                
+                session.orderItems = []
+                session.totalPrice = 0
+                session.items = {}
+            }
 
-            await order.save();
-            
-            session.orderItems = []
-            session.totalPrice = 0
-            session.items = {}
-
-            return res.render('cart', {layout: 'index', itemList: session.orderItems, totalPrice: session.totalPrice});
+            return res.redirect('/cart');
         }catch(e){
             console.log(e)
         }
